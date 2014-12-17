@@ -5,7 +5,7 @@ BASEFILES = collision.o equilibration.o event_table.o fft_transform.o field.o ra
 CC = icc
 
 # compiler options (debug builds for testing)
-CCOPTS = -Wall -m64 -g -DDEBUG
+CCOPTS = -Wall -m64 -g -DDEBUG -D_DEBUG
 
 # include directive
 INC_DIR = -I../include -I../../common/include

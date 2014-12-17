@@ -1,0 +1,61 @@
+
+BASEFILES = collision.o equilibration.o event_table.o fft_transform.o field.o random.o simulation.o util.o
+
+# use Intel compiler
+CC = icc
+
+# compiler options (debug builds for testing)
+CCOPTS = -Wall -m64 -g -DDEBUG
+
+# include directive
+INC_DIR = -I../include -I../../common/include
+
+
+all: proj_collision_test proj_collision_test2 proj_spatial_correlation_test
+
+
+proj_collision_test: ${BASEFILES} collision_test.o
+	${CC} ${CCOPTS} -o collision_test $? ${FFTW_LIB}
+
+proj_collision_test2: ${BASEFILES} collision_test2.o
+	${CC} ${CCOPTS} -o collision_test2 $? ${FFTW_LIB}
+
+proj_spatial_correlation_test: ${BASEFILES} spatial_correlation.o spatial_correlation_ref.o spatial_correlation_test.o
+	${CC} ${CCOPTS} -o spatial_correlation_test $? ${FFTW_LIB}
+
+
+fft_transform.o: ../../common/src/fft_transform.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+random.o: ../../common/src/random.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+spatial_correlation.o: ../../common/src/spatial_correlation.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+time_correlation.o: ../../common/src/time_correlation.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+util.o: ../../common/src/util.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+
+collision_test.o: collision_test.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+collision_test2.o: collision_test2.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+spatial_correlation_ref.o: spatial_correlation_ref.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+spatial_correlation_test.o: spatial_correlation_test.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+
+%.o: ../src/%.c
+	${CC} -c ${INC_DIR} ${FFTW_INC} ${CCOPTS} $<
+
+
+clean:
+	rm *.o

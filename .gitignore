@@ -1,0 +1,9 @@
+# ignore C object files
+*.o
+*.a
+
+# ignore Visual Studio internal project files and binary subdirectories
+*.sdf
+*.suo
+Debug/
+Release/

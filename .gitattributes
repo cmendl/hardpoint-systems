@@ -1,0 +1,7 @@
+# explicit declaration of text files
+*.c  text
+*.h  text
+*.tm text
+
+# explicit declaration of binary files
+*.dat binary
